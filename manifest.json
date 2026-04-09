@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "My Custom Extension",
+  "version": "1.0",
+  "description": "Your own Chrome extension - no subscription needed!",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "contextMenus"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}

@@ -1,0 +1,498 @@
+/* =============================================================================
+   Admin Dashboard — Styles
+   ============================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --bg-primary: #0f0f1a;
+    --bg-secondary: #1a1a2e;
+    --bg-card: #16213e;
+    --bg-hover: #1f2e50;
+    --accent: #667eea;
+    --accent-light: #7c93f5;
+    --accent-glow: rgba(102, 126, 234, 0.2);
+    --text-primary: #e8e8f0;
+    --text-secondary: #8888aa;
+    --text-muted: #555577;
+    --border: #2a2a4a;
+    --success: #4ade80;
+    --warning: #fbbf24;
+    --danger: #f87171;
+    --pro-badge: #a78bfa;
+    --lifetime-badge: #f59e0b;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+    --transition: all 0.2s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ── Layout ──────────────────────────────────────────────────── */
+
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 240px;
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--border);
+    padding: 24px 16px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 100;
+}
+
+.sidebar-header h1 {
+    font-size: 20px;
+    font-weight: 700;
+    padding: 0 8px 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+}
+
+.nav-links {
+    list-style: none;
+}
+
+.nav-link {
+    display: block;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: var(--transition);
+    margin-bottom: 4px;
+}
+
+.nav-link:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.nav-link.active {
+    background: var(--accent-glow);
+    color: var(--accent-light);
+    font-weight: 600;
+}
+
+.main-content {
+    flex: 1;
+    margin-left: 240px;
+    padding: 24px 32px;
+}
+
+/* ── Top Bar ─────────────────────────────────────────────────── */
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.topbar h2 {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* ── Views ───────────────────────────────────────────────────── */
+
+.view {
+    display: none;
+}
+
+.view.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Stats Grid ──────────────────────────────────────────────── */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-light));
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.stat-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.stat-card:hover::before {
+    opacity: 1;
+}
+
+.stat-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.stat-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* ── Cards ───────────────────────────────────────────────────── */
+
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 20px;
+}
+
+.card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--text-primary);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+/* ── Table ───────────────────────────────────────────────────── */
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th {
+    text-align: left;
+    padding: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border);
+}
+
+.table td {
+    padding: 12px;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(42, 42, 74, 0.5);
+}
+
+.table tr:hover td {
+    background: var(--bg-hover);
+}
+
+/* ── Badges ──────────────────────────────────────────────────── */
+
+.badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.badge-free {
+    background: rgba(136, 136, 170, 0.2);
+    color: var(--text-secondary);
+}
+
+.badge-pro {
+    background: rgba(167, 139, 250, 0.2);
+    color: var(--pro-badge);
+}
+
+.badge-lifetime {
+    background: rgba(245, 158, 11, 0.2);
+    color: var(--lifetime-badge);
+}
+
+/* ── Inputs ──────────────────────────────────────────────────── */
+
+.input {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    padding: 8px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: var(--transition);
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.filters {
+    display: flex;
+    gap: 8px;
+}
+
+/* ── Buttons ─────────────────────────────────────────────────── */
+
+.btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn:hover {
+    background: var(--accent-light);
+    transform: translateY(-1px);
+}
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 13px;
+}
+
+/* ── Tier Bars ───────────────────────────────────────────────── */
+
+.tier-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.tier-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.tier-bar-label {
+    width: 80px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.tier-bar-track {
+    flex: 1;
+    height: 8px;
+    background: var(--bg-secondary);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.tier-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.6s ease;
+}
+
+.tier-bar-fill.free { background: var(--text-secondary); }
+.tier-bar-fill.pro { background: var(--pro-badge); }
+.tier-bar-fill.lifetime { background: var(--lifetime-badge); }
+
+.tier-bar-count {
+    width: 40px;
+    text-align: right;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* ── Charts ──────────────────────────────────────────────────── */
+
+.chart-container {
+    min-height: 200px;
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    padding-top: 16px;
+}
+
+.chart-bar {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.chart-bar-fill {
+    width: 100%;
+    max-width: 60px;
+    background: linear-gradient(180deg, var(--accent-light), var(--accent));
+    border-radius: 4px 4px 0 0;
+    transition: height 0.6s ease;
+    min-height: 4px;
+}
+
+.chart-bar-label {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.chart-bar-value {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+/* ── Pagination ──────────────────────────────────────────────── */
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.pagination button {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-family: inherit;
+    transition: var(--transition);
+}
+
+.pagination button:hover {
+    border-color: var(--accent);
+    color: var(--text-primary);
+}
+
+.pagination button.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+}
+
+/* ── Utilities ───────────────────────────────────────────────── */
+
+.text-muted {
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.activity-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(42, 42, 74, 0.3);
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+/* ── Responsive ──────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 60px;
+        padding: 16px 8px;
+    }
+
+    .sidebar-header h1 {
+        font-size: 0;
+    }
+
+    .sidebar-header h1::first-letter {
+        font-size: 20px;
+    }
+
+    .nav-link {
+        text-align: center;
+        padding: 10px 4px;
+        font-size: 0;
+    }
+
+    .nav-link::first-letter {
+        font-size: 18px;
+    }
+
+    .main-content {
+        margin-left: 60px;
+        padding: 16px;
+    }
+}

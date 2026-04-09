@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Environment variables
+.env
+backend/.env
+
+# Database
+*.db
+backend/data/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Extension build artifacts
+extension/*.zip
+*.zip
+
+# Node (if dashboard uses npm)
+node_modules/
+package-lock.json
+
+# Redis dump
+dump.rdb
+
+# Logs
+*.log
+
+# Temporary
+/tmp/

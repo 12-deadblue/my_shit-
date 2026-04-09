@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard — My Extension</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Sidebar -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>🚀 Admin</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" class="nav-link active" data-view="overview">📊 Overview</a></li>
+                <li><a href="#" class="nav-link" data-view="users">👥 Users</a></li>
+                <li><a href="#" class="nav-link" data-view="revenue">💰 Revenue</a></li>
+                <li><a href="#" class="nav-link" data-view="analytics">📈 Analytics</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="topbar">
+                <h2 id="page-title">Overview</h2>
+                <div class="topbar-actions">
+                    <span id="last-updated" class="text-muted"></span>
+                    <button id="refresh-btn" class="btn btn-sm">🔄 Refresh</button>
+                </div>
+            </header>
+
+            <!-- Overview View -->
+            <div id="view-overview" class="view active">
+                <div class="stats-grid">
+                    <div class="stat-card" id="stat-total-users">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-value">—</div>
+                        <div class="stat-label">Total Users</div>
+                    </div>
+                    <div class="stat-card" id="stat-active-today">
+                        <div class="stat-icon">🟢</div>
+                        <div class="stat-value">—</div>
+                        <div class="stat-label">Active Today</div>
+                    </div>
+                    <div class="stat-card" id="stat-revenue">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-value">—</div>
+                        <div class="stat-label">Total Revenue</div>
+                    </div>
+                    <div class="stat-card" id="stat-pro-users">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-value">—</div>
+                        <div class="stat-label">Pro Users</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Tier Breakdown</h3>
+                    <div id="tier-breakdown" class="tier-bars"></div>
+                </div>
+
+                <div class="card">
+                    <h3>Recent Activity</h3>
+                    <div id="activity-summary" class="activity-list">
+                        <p class="text-muted">Loading...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users View -->
+            <div id="view-users" class="view">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Users</h3>
+                        <div class="filters">
+                            <input type="text" id="user-search" placeholder="Search by email or name..." class="input">
+                            <select id="user-tier-filter" class="input">
+                                <option value="">All Tiers</option>
+                                <option value="free">Free</option>
+                                <option value="pro">Pro</option>
+                                <option value="lifetime">Lifetime</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="users-table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Email</th>
+                                    <th>Tier</th>
+                                    <th>Joined</th>
+                                    <th>Last Active</th>
+                                </tr>
+                            </thead>
+                            <tbody id="users-tbody">
+                                <tr><td colspan="5" class="text-muted">Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination" id="users-pagination"></div>
+                </div>
+            </div>
+
+            <!-- Revenue View -->
+            <div id="view-revenue" class="view">
+                <div class="stats-grid">
+                    <div class="stat-card" id="stat-revenue-total">
+                        <div class="stat-icon">💵</div>
+                        <div class="stat-value">—</div>
+                        <div class="stat-label">All-Time Revenue</div>
+                    </div>
+                    <div class="stat-card" id="stat-revenue-month">
+                        <div class="stat-icon">📅</div>
+                        <div class="stat-value">—</div>
+                        <div class="stat-label">This Month</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Monthly Revenue</h3>
+                    <div id="revenue-chart" class="chart-container">
+                        <p class="text-muted">Loading...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics View -->
+            <div id="view-analytics" class="view">
+                <div class="card">
+                    <h3>Events This Week</h3>
+                    <div id="events-breakdown" class="stats-grid">
+                        <p class="text-muted">Loading...</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Daily Active Users (7 days)</h3>
+                    <div id="dau-chart" class="chart-container">
+                        <p class="text-muted">Loading...</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
