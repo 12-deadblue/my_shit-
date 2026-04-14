@@ -8,7 +8,19 @@ Go to: https://favicon.io/emoji-favicons/
 - Rename files to: icon16.png, icon48.png, icon128.png
 - Put in this folder
 
-## 2. Load into Chrome (30 seconds)
+## 2. Start the Backend (2 minutes)
+
+1. Open a terminal in this folder.
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Start the server:
+   ```bash
+   python backend/app.py
+   ```
+
+## 3. Load into Chrome (30 seconds)
 
 1. Open: chrome://extensions/
 2. Turn on "Developer mode" (top right)

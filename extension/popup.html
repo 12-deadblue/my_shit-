@@ -10,7 +10,20 @@
     <h1>My Custom Extension</h1>
     <p>Built by me, no subscription required! 💪</p>
     
-    <div class="section">
+    <div class="user-profile" id="userProfile" style="display: none;">
+      <div class="user-info">
+        <img id="userAvatar" src="" alt="Avatar" class="avatar">
+        <span id="userName" class="user-name"></span>
+      </div>
+      <button id="logoutBtn" class="sm-btn">Logout</button>
+    </div>
+    
+    <div class="section" id="authSection">
+      <h2>Welcome</h2>
+      <button id="loginBtn" class="primary-btn">Login with Google</button>
+    </div>
+    
+    <div class="section" id="actionsSection" style="display: none;">
       <h2>Quick Actions</h2>
       <button id="highlightBtn">Highlight Text</button>
       <button id="saveBtn">Save Current Page</button>

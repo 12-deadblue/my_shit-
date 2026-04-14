@@ -7,11 +7,35 @@ Highlights, and UsageEvents.
 
 from datetime import datetime, timezone
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import inspect
 
 db = SQLAlchemy()
 
+class SerializerMixin:
+    def to_dict(self, only = None , exclude= None):
+        data = {}
+        for attr in inspect(self).mapper.column_attrs:
+            field = attr.key
+            
+            if only and field not in only:
+                continue
+            if exclude and field in exclude:
+                continue
+                
+            value = getattr(self, field)
+            
+            if isinstance(value, datetime):
+                data[field] = value.isoformat() if value else None
+            else:
+                data[field] = value
+                
+        return data
+        
+        
 
-class User(db.Model):
+
+
+class User(SerializerMixin, db.Model):
     """Registered user (via Google OAuth)."""
 
     __tablename__ = "users"
@@ -41,19 +65,8 @@ class User(db.Model):
     )
     payments = db.relationship("Payment", backref="user", lazy="dynamic")
 
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "email": self.email,
-            "name": self.name,
-            "avatar_url": self.avatar_url,
-            "tier": self.tier,
-            "created_at": self.created_at.isoformat() if self.created_at else None,
-            "last_active": self.last_active.isoformat() if self.last_active else None,
-        }
 
-
-class Subscription(db.Model):
+class Subscription(SerializerMixin, db.Model):
     """User subscription record."""
 
     __tablename__ = "subscriptions"
@@ -69,17 +82,8 @@ class Subscription(db.Model):
     expires_at = db.Column(db.DateTime)
     cancelled_at = db.Column(db.DateTime)
 
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "plan": self.plan,
-            "status": self.status,
-            "started_at": self.started_at.isoformat() if self.started_at else None,
-            "expires_at": self.expires_at.isoformat() if self.expires_at else None,
-        }
 
-
-class Payment(db.Model):
+class Payment(SerializerMixin, db.Model):
     """Payment transaction record."""
 
     __tablename__ = "payments"
@@ -96,17 +100,8 @@ class Payment(db.Model):
         db.DateTime, default=lambda: datetime.now(timezone.utc)
     )
 
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "amount_cents": self.amount_cents,
-            "currency": self.currency,
-            "status": self.status,
-            "created_at": self.created_at.isoformat() if self.created_at else None,
-        }
 
-
-class SavedPage(db.Model):
+class SavedPage(SerializerMixin, db.Model):
     """A page saved by the user."""
 
     __tablename__ = "saved_pages"
@@ -120,17 +115,8 @@ class SavedPage(db.Model):
         db.DateTime, default=lambda: datetime.now(timezone.utc)
     )
 
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "url": self.url,
-            "title": self.title,
-            "favicon_url": self.favicon_url,
-            "created_at": self.created_at.isoformat() if self.created_at else None,
-        }
 
-
-class Highlight(db.Model):
+class Highlight(SerializerMixin, db.Model):
     """A text highlight made by the user."""
 
     __tablename__ = "highlights"
@@ -145,17 +131,8 @@ class Highlight(db.Model):
         db.DateTime, default=lambda: datetime.now(timezone.utc)
     )
 
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "page_url": self.page_url,
-            "text_content": self.text_content,
-            "color": self.color,
-            "created_at": self.created_at.isoformat() if self.created_at else None,
-        }
 
-
-class UsageEvent(db.Model):
+class UsageEvent(SerializerMixin, db.Model):
     """Analytics event for admin dashboard."""
 
     __tablename__ = "usage_events"
@@ -169,11 +146,3 @@ class UsageEvent(db.Model):
     created_at = db.Column(
         db.DateTime, default=lambda: datetime.now(timezone.utc)
     )
-
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "event_type": self.event_type,
-            "metadata": self.metadata_json,
-            "created_at": self.created_at.isoformat() if self.created_at else None,
-        }

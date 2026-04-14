@@ -1,0 +1,83 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [  dev ]
+  pull_request:
+    branches: [ dev ]
+
+jobs:
+  backend-validation:
+    runs-on: ubuntu-latest
+    
+    # We load a local Redis container specifically for backend testing!
+    services:
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          cd backend
+          pip install -r requirements.txt
+
+      - name: Check Python Syntax Compilation
+        run: |
+          cd backend
+          python -m py_compile app.py
+
+      - name: Test Application Factory Boot
+        env:
+          FLASK_ENV: testing
+          REDIS_URL: redis://localhost:6379/0
+          SECRET_KEY: dummy_ci_key
+          GOOGLE_CLIENT_ID: dummy_oauth_client_id
+        run: |
+          cd backend
+          # Verifies that all modules load perfectly without throwing exception
+          python -c "from app import create_app; app = create_app('testing')"
+
+      - name: Run Pytest (if tests directory is initialized)
+        run: |
+          cd backend
+          if [ -d "tests" ]; then
+            pip install pytest
+            pytest tests/
+          else
+            echo "No tests directory configured yet, skipping pytest suite."
+          fi
+
+  extension-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Validate manifest.json Structure
+        run: |
+          cd extension
+          cat manifest.json | jq empty || exit 1
+          echo "✅ manifest.json is structurally valid XML/JSON"
+
+      - name: Ensure ZIP Packaging Succeeds (Dry Build)
+        run: |
+          sudo apt-get install -y zip
+          mkdir -p dist
+          cd extension
+          zip -r ../dist/extension-ci.zip . -x ".*"

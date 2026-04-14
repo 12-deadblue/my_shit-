@@ -170,3 +170,60 @@ button:active {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.4);
 }
+
+/* User Profile & Auth */
+:root {
+  --primary-color: #4CAF50;
+  --primary-hover: #45a049;
+}
+
+.user-profile {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  object-fit: cover;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.sm-btn {
+  width: auto;
+  padding: 6px 12px;
+  font-size: 12px;
+  margin: 0;
+  background: rgba(255, 59, 48, 0.2);
+  border-color: rgba(255, 59, 48, 0.4);
+}
+
+.sm-btn:hover {
+  background: rgba(255, 59, 48, 0.4);
+}
+
+.primary-btn {
+  background: var(--primary-color);
+  border: none;
+}
+
+.primary-btn:hover {
+  background: var(--primary-hover);
+}
