@@ -227,3 +227,274 @@ button:active {
 .primary-btn:hover {
   background: var(--primary-hover);
 }
+
+/* ===== Subscription Section ===== */
+
+.subscription-section {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Current Plan Badge */
+.current-plan {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.plan-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.plan-badge.tier-free {
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.plan-badge.tier-pro {
+  background: rgba(56, 189, 248, 0.25);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  color: #7dd3fc;
+}
+
+.plan-badge.tier-lifetime {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.3), rgba(245, 158, 11, 0.2));
+  border: 1px solid rgba(251, 191, 36, 0.5);
+  color: #fcd34d;
+}
+
+.plan-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.tier-free .plan-badge-dot { background: rgba(255, 255, 255, 0.5); }
+.tier-pro .plan-badge-dot { background: #38bdf8; box-shadow: 0 0 6px rgba(56, 189, 248, 0.5); }
+.tier-lifetime .plan-badge-dot { background: #fbbf24; box-shadow: 0 0 6px rgba(251, 191, 36, 0.5); }
+
+/* Plan Cards Grid */
+.plan-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.plan-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 14px 12px;
+  text-align: center;
+  position: relative;
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.plan-card:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.plan-card.recommended {
+  border-color: rgba(251, 191, 36, 0.5);
+  background: rgba(251, 191, 36, 0.08);
+  box-shadow: 0 0 20px rgba(251, 191, 36, 0.08);
+}
+
+.plan-card.recommended:hover {
+  background: rgba(251, 191, 36, 0.14);
+  box-shadow: 0 8px 24px rgba(251, 191, 36, 0.15);
+}
+
+.recommended-tag {
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: #1a1a2e;
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 2px 10px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+.plan-card .plan-name {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  opacity: 0.9;
+}
+
+.plan-card .plan-price {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 2px;
+  background: linear-gradient(135deg, #fff, rgba(255, 255, 255, 0.7));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.plan-card .plan-interval {
+  font-size: 11px;
+  opacity: 0.5;
+  margin-bottom: 10px;
+}
+
+.plan-card .plan-features {
+  list-style: none;
+  text-align: left;
+  margin-bottom: 12px;
+  flex: 1;
+}
+
+.plan-card .plan-features li {
+  font-size: 11px;
+  padding: 2px 0;
+  opacity: 0.75;
+}
+
+.plan-card .plan-features li::before {
+  content: "✓ ";
+  color: #4ade80;
+  font-weight: 700;
+}
+
+.upgrade-btn {
+  background: linear-gradient(135deg, #667eea, #764ba2) !important;
+  border: none !important;
+  padding: 8px 12px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  border-radius: 8px !important;
+  width: 100% !important;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.upgrade-btn:hover {
+  filter: brightness(1.15);
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.upgrade-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+  filter: none;
+}
+
+.plan-card.recommended .upgrade-btn {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
+  color: #1a1a2e !important;
+}
+
+/* Active Subscription State */
+.active-plan-info {
+  text-align: center;
+  padding: 8px 0;
+}
+
+.active-plan-info .plan-emoji {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.active-plan-info .active-label {
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.active-plan-info .active-plan-name {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.active-plan-info .expires-text {
+  font-size: 11px;
+  opacity: 0.5;
+  margin-top: 4px;
+}
+
+.cancel-link {
+  background: none !important;
+  border: none !important;
+  color: rgba(255, 255, 255, 0.4) !important;
+  font-size: 11px !important;
+  padding: 6px !important;
+  margin-top: 4px !important;
+  text-decoration: underline;
+  cursor: pointer;
+  width: auto !important;
+  transition: color 0.2s;
+}
+
+.cancel-link:hover {
+  color: rgba(255, 100, 100, 0.8) !important;
+  background: none !important;
+  transform: none !important;
+}
+
+/* Login prompt for subscription */
+.upgrade-login-prompt {
+  text-align: center;
+  padding: 10px 0;
+  opacity: 0.6;
+  font-size: 12px;
+}
+
+/* Loading spinner */
+.sub-loading {
+  text-align: center;
+  padding: 16px;
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+.sub-loading::before {
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Footer tier display */
+.footer .tier-text {
+  font-weight: 600;
+}
