@@ -13,7 +13,7 @@ services:
         RUN pip install --no-cache-dir -r requirements.txt
         COPY . .
         EXPOSE 5000
-        CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "3", "app:create_app()"]
+        CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "1", "--threads", "2", "app:create_app()"]
     container_name: extension_backend
     ports:
       - "5000:5000"
@@ -39,7 +39,7 @@ services:
       # Persist Redis cache in a docker-managed volume
       - redis_data:/data
     restart: unless-stopped
-    command: redis-server --save 60 1 --loglevel warning
+    command: redis-server --save 60 1 --loglevel warning --maxmemory 64mb --maxmemory-policy allkeys-lru
 
 volumes:
   redis_data:

@@ -1,45 +1,31 @@
-version: '3.8'
+# =============================================================================
+# Deploy Backend to OCI VPS
+# =============================================================================
+# Triggers on push to main when backend files change.
+# SSHs into your OCI instance and runs docker compose.
 
-services:
-  backend:
-    build: 
-      context: ../../backend
-      dockerfile_inline: |
-        FROM python:3.12-slim
-        ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 FLASK_ENV=production
-        WORKDIR /app
-        RUN apt-get update && apt-get install -y --no-install-recommends gcc && rm -rf /var/lib/apt/lists/*
-        COPY requirements.txt .
-        RUN pip install --no-cache-dir -r requirements.txt
-        COPY . .
-        EXPOSE 5000
-        CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "3", "app:create_app()"]
-    container_name: extension_backend
-    ports:
-      - "5000:5000"
-    environment:
-      # This points the backend to the Redis container named 'redis'
-      - REDIS_URL=redis://redis:6379/0
-    env_file:
-      # Inject secret variables from the backend's .env file
-      - ../../backend/.env
-    volumes:
-      # Persist SQLite database on the host machine
-      - ../../backend/data:/app/data
-    depends_on:
-      - redis
-    restart: unless-stopped
+name: Deploy to VPS
 
-  redis:
-    image: redis:7-alpine
-    container_name: extension_redis
-    ports:
-      - "6379:6379"
-    volumes:
-      # Persist Redis cache in a docker-managed volume
-      - redis_data:/data
-    restart: unless-stopped
-    command: redis-server --save 60 1 --loglevel warning
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'backend/**'
+      - 'deploy.yml'
 
-volumes:
-  redis_data: 
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            cd ~/my_shit
+            git pull origin main
+            docker compose -f deploy.yml up -d --build
+            docker image prune -f
+            echo "Deployed at $(date)"
