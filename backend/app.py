@@ -21,7 +21,12 @@ def create_app(config_name=None):
         config_name = os.getenv("FLASK_ENV", "default")
 
     app = Flask(__name__)
-    app.config.from_object(config[config_name])
+    config_class = config[config_name]
+    app.config.from_object(config_class)
+
+    # Run config-specific validation (e.g., ProductionConfig checks secrets)
+    if hasattr(config_class, "init_app"):
+        config_class.init_app(app)
 
     # ── Extensions ──────────────────────────────────────────────
     CORS(app, origins=app.config["CORS_ORIGINS"])
@@ -36,6 +41,11 @@ def create_app(config_name=None):
 
     # ── Database ────────────────────────────────────────────────
     with app.app_context():
+        # Ensure the database directory exists (SQLite won't create it)
+        db_uri = app.config.get("SQLALCHEMY_DATABASE_URI", "")
+        if db_uri.startswith("sqlite:///"):
+            db_path = db_uri.replace("sqlite:///", "", 1)
+            os.makedirs(os.path.dirname(db_path), exist_ok=True)
         db.create_all()
 
     # ── Health Check ────────────────────────────────────────────

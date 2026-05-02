@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+basedir = os.path.abspath(os.path.dirname(__file__))
+
 
 class Config:
     """Base configuration."""
@@ -14,7 +16,10 @@ class Config:
     TESTING = False
 
     # Database
-    DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///data/app.db")
+    DATABASE_URL = os.getenv(
+        "DATABASE_URL",
+        f"sqlite:///{os.path.join(basedir, 'data', 'app.db')}"
+    )
     SQLALCHEMY_DATABASE_URI = DATABASE_URL
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
@@ -69,16 +74,28 @@ class ProductionConfig(Config):
     """Production configuration."""
 
     DEBUG = False
-    # Strictly require secrets in production
-    SECRET_KEY = os.environ["SECRET_KEY"]
-    JWT_SECRET_KEY = os.environ["JWT_SECRET_KEY"]
+    # These will be overridden by init_app validation
+    SECRET_KEY = os.getenv("SECRET_KEY", "")
+    JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "")
+
+    @classmethod
+    def init_app(cls, app):
+        """Validate that required secrets are set in production."""
+        missing = [
+            key for key in ("SECRET_KEY", "JWT_SECRET_KEY")
+            if not os.getenv(key)
+        ]
+        if missing:
+            raise RuntimeError(
+                f"Production requires these environment variables: {', '.join(missing)}"
+            )
 
 
 class TestingConfig(Config):
     """Testing configuration."""
 
     TESTING = True
-    DATABASE_URL = "sqlite:///data/test.db"
+    DATABASE_URL = f"sqlite:///{os.path.join(basedir, 'data', 'test.db')}"
     SQLALCHEMY_DATABASE_URI = DATABASE_URL
 
 
